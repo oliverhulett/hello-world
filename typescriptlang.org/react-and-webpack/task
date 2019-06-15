@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+##
+##	Wrapper around `npx task` from https://github.com/pawelgalazka/taskfile
+##	Ensure CWD is top level of the project.
+##	Source init.sh to install taskfile.
+##	Then forward all arguments `npx task`.
+
+HERE="$(cd "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+# shellcheck source=init.sh
+source "${HERE}/init.sh"
+( cd "${HERE}" && ./node_modules/.bin/node ./taskfile.js "$@" || _exit $? "Taskfile execution failed; try $0 --help" )

@@ -1,0 +1,17 @@
+{
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    { "language": "typescript", "autoFix": true },
+    { "language": "typescriptreact", "autoFix": true }
+  ],
+  "eslint.alwaysShowStatus": true,
+  "eslint.autoFixOnSave": true,
+  "eslint.packageManager": "yarn",
+  "eslint.provideLintTask": true,
+  "jshint.lintHTML": true,
+  "jshint.packageManager": "yarn",
+  "jshint.reportWarningsAsErrors": true,
+  "tslint.jsEnable": true,
+  "tslint.packageManager": "yarn"
+}

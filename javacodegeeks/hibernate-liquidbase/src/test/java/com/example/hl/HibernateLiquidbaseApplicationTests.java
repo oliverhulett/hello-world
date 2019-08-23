@@ -1,4 +1,4 @@
-package com.example.sblb;
+package com.example.hl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SblbApplicationTests {
+public class HibernateLiquidbaseApplicationTests {
 
 	@Test
 	public void contextLoads() {

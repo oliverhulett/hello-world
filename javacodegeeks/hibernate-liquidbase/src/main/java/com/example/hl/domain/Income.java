@@ -1,4 +1,4 @@
-package com.example.sblb.domain;
+package com.example.hl.domain;
  
 import java.util.Date;
  
@@ -10,13 +10,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
  
 @Entity
-@DiscriminatorValue("expense")
+@DiscriminatorValue("income")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Expense extends AccountTransaction {
+public class Income extends AccountTransaction {
  
-    public Expense(Date date, String description, Double amount) {
+    public Income(Date date, String description, Double amount) {
         this.date = date;
         this.description = description;
         this.amount = amount;

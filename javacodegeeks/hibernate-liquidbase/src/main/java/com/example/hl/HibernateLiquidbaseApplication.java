@@ -1,4 +1,4 @@
-package com.example.sblb;
+package com.example.hl;
 
 import java.text.SimpleDateFormat;
 
@@ -7,17 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.example.sblb.domain.AccountTransactionRepository;
-import com.example.sblb.domain.Expense;
-import com.example.sblb.domain.ExpenseRepository;
-import com.example.sblb.domain.Income;
-import com.example.sblb.domain.IncomeRepository;
+import com.example.hl.domain.AccountTransactionRepository;
+import com.example.hl.domain.Expense;
+import com.example.hl.domain.ExpenseRepository;
+import com.example.hl.domain.Income;
+import com.example.hl.domain.IncomeRepository;
 
 @SpringBootApplication
-public class SblbApplication implements CommandLineRunner {
+public class HibernateLiquidbaseApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SblbApplication.class, args);
+		SpringApplication.run(HibernateLiquidbaseApplication.class, args);
 	}
 
 	@Autowired

@@ -1,4 +1,4 @@
-package com.example.sblb.domain;
+package com.example.hl.domain;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

@@ -1,4 +1,4 @@
-package com.example.sblb.domain;
+package com.example.hl.domain;
 
 import java.util.Date;
 

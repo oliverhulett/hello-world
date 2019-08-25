@@ -1,7 +1,7 @@
 spring:
    datasource:
       # database connection parameters
-      url: jdbc:postgresql://localhost:5432/hibernate_liquidbase
+      url: jdbc:postgresql://localhost:5432/hibernate_liquibase
       
    jpa:
       open-in-view: false

@@ -14,10 +14,10 @@ import com.example.hl.domain.Income;
 import com.example.hl.domain.IncomeRepository;
 
 @SpringBootApplication
-public class HibernateLiquidbaseApplication implements CommandLineRunner {
+public class HibernateLiquibaseApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(HibernateLiquidbaseApplication.class, args);
+		SpringApplication.run(HibernateLiquibaseApplication.class, args);
 	}
 
 	@Autowired

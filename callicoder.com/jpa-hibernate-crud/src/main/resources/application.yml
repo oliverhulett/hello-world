@@ -1,6 +1,4 @@
 spring:
-   datasource: ## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
-      url: jdbc:postgresql://localhost:5432/jpa_hibernate_crud
    jpa:
       open-in-view: false
       # The SQL dialect makes Hibernate generate better SQL for the chosen database
@@ -15,5 +13,6 @@ profile: local
 
 spring:
    datasource:
+      url: jdbc:postgresql://localhost:5432/liquibase
       username: postgres
       password: postgres

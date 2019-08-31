@@ -1,0 +1,26 @@
+databaseChangeLog:
+- changeSet:
+    id: 0
+    author: oliverhulett
+    changes:
+    - createTable:
+        tableName: person
+        columns:
+        - column:
+            name: id
+            type: INT
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: name
+            type: VARCHAR(255)
+            constraints:
+              nullable: false
+        - column:
+            name: address
+            type: VARCHAR(255)
+    - rollback:
+        dropTable:
+          tableName: person

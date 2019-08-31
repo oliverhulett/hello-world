@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import com.example.hl.domain.AccountTransactionRepository;
 import com.example.hl.domain.Expense;
@@ -22,6 +23,9 @@ public class HibernateLiquibaseApplication implements CommandLineRunner {
 
 	@Autowired
 	AccountTransactionRepository atr;
+
+	@Autowired
+	ConfigurableApplicationContext cac;
 
 	@Autowired
 	ExpenseRepository er;
@@ -72,5 +76,7 @@ public class HibernateLiquibaseApplication implements CommandLineRunner {
 		Double balance = atr.findTotalByAccountType("income")
 				- atr.findTotalByAccountType("expense");
 		System.out.println(balance);
+
+		cac.close();
 	}
 }

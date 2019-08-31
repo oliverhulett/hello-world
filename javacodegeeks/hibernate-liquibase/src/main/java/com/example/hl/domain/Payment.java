@@ -7,6 +7,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.lang.Nullable;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,20 +24,28 @@ public class Payment {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@NotNull
 	@ManyToOne
-	private AccountTransaction toAccount;
+	private Expense fromAccount;
+	@NotNull
 	@ManyToOne
-	private AccountTransaction fromAccount;
+	private Income toAccount;
+	@NotNull
 	private Double amount;
+	@NotNull
 	private Date date;
+	@NotNull
+	private String item;
+	@Nullable
 	private String description;
 
-	public Payment(AccountTransaction toAccount, AccountTransaction fromAccount,
-			Double amount, Date date, String description) {
+	public Payment(Expense fromAccount, Income toAccount, Double amount,
+			Date date, String item, String description) {
 		this.toAccount = toAccount;
 		this.fromAccount = fromAccount;
 		this.amount = amount;
 		this.date = date;
+		this.item = item;
 		this.description = description;
 	}
 }

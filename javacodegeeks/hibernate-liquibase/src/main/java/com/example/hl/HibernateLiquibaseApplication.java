@@ -1,6 +1,8 @@
 package com.example.hl;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -13,6 +15,8 @@ import com.example.hl.domain.Expense;
 import com.example.hl.domain.ExpenseRepository;
 import com.example.hl.domain.Income;
 import com.example.hl.domain.IncomeRepository;
+import com.example.hl.domain.Payment;
+import com.example.hl.domain.PaymentRepository;
 
 @SpringBootApplication
 public class HibernateLiquibaseApplication implements CommandLineRunner {
@@ -22,18 +26,18 @@ public class HibernateLiquibaseApplication implements CommandLineRunner {
 	}
 
 	@Autowired
-	AccountTransactionRepository atr;
-
-	@Autowired
 	ConfigurableApplicationContext cac;
 
 	@Autowired
+	AccountTransactionRepository atr;
+	@Autowired
 	ExpenseRepository er;
-
-	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
 	@Autowired
 	IncomeRepository ir;
+	@Autowired
+	PaymentRepository pr;
+
+	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -71,6 +75,10 @@ public class HibernateLiquibaseApplication implements CommandLineRunner {
 			expense.setAmount(250.0);
 			er.save(expense);
 		});
+
+		pr.save(new Payment(expenses.iterator().next(),
+				incomes.iterator().next(), 20.0, Date.from(Instant.now()),
+				"Services Rendered", "payment"));
 
 		// calculate & print overall balance: incomes total minus expenses total
 		Double balance = atr.findTotalByAccountType("income")

@@ -27,5 +27,4 @@ public class TestConfig {
 		dataSource.setPassword("postgres");
 		return dataSource;
 	}
-
 }

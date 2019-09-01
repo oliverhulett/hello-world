@@ -1,50 +1,24 @@
 package com.example.jpahibernatecrud.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.sql.*;
+import javax.persistence.*;
+import lombok.Data;
 
-@Entity
-@Table(name = "questions")
-public class Question extends AuditModel {
-	@Id
-	@GeneratedValue(generator = "question_generator")
-	@SequenceGenerator(name = "question_generator", sequenceName = "question_sequence", initialValue = 1000)
-	private Long id;
+@Data
+@Entity(name = "com.example.jpahibernatecrud.model.Question")
+@Table(name = "question")
+public class Question {
 
-	@NotBlank
-	@Size(min = 3, max = 100)
-	private String title;
-
-	@Column(columnDefinition = "text")
-	private String description;
-
-	public Long getId() {
-		return id;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "\"id\"", nullable = false)
+  private Integer id;
+  @Column(name = "\"title\"", nullable = false)
+  private String title;
+  @Column(name = "\"description\"", nullable = true)
+  private String description;
+  @Column(name = "\"createdAt\"", nullable = true)
+  private Timestamp createdat;
+  @Column(name = "\"updatedAt\"", nullable = true)
+  private Timestamp updatedat;
 }

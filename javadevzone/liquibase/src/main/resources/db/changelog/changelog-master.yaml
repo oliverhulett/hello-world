@@ -5,3 +5,5 @@ databaseChangeLog:
     file: /db/changelog/changes/001.changelog.insert-person.yaml
 - include:
     file: /db/changelog/changes/002.changelog.update-person-table.yaml
+- include:
+    file: /db/changelog/changes/003.changelog.create-question-answer-table.yaml

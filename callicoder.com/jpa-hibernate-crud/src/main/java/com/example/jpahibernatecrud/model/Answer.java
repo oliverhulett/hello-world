@@ -1,59 +1,24 @@
 package com.example.jpahibernatecrud.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import java.sql.*;
+import javax.persistence.*;
+import lombok.Data;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+@Data
+@Entity(name = "com.example.jpahibernatecrud.model.Answer")
+@Table(name = "answer")
+public class Answer {
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-@Entity
-@Table(name = "answers")
-public class Answer extends AuditModel {
-	@Id
-	@GeneratedValue(generator = "answer_generator")
-	@SequenceGenerator(name = "answer_generator", sequenceName = "answer_sequence", initialValue = 1000)
-	private Long id;
-
-	@Column(columnDefinition = "text")
-	private String text;
-
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "question_id", nullable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
-	private Question question;
-
-	public Long getId() {
-		return id;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public Question getQuestion() {
-		return question;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public void setQuestion(Question question) {
-		this.question = question;
-	}
-
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "\"id\"", nullable = false)
+  private Integer id;
+  @Column(name = "\"question_id\"", nullable = false)
+  private Integer questionId;
+  @Column(name = "\"text\"", nullable = true)
+  private String text;
+  @Column(name = "\"createdAt\"", nullable = true)
+  private Timestamp createdat;
+  @Column(name = "\"updatedAt\"", nullable = true)
+  private Timestamp updatedat;
 }

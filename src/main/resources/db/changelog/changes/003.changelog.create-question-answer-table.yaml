@@ -1,0 +1,65 @@
+databaseChangeLog:
+- changeSet:
+    id: 3
+    author: oliverhulett
+    changes:
+    - createTable:
+        tableName: question
+        columns:
+        - column:
+            name: id
+            type: INT
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: title
+            type: VARCHAR(255)
+            constraints:
+              nullable: false
+        - column:
+            name: description
+            type: VARCHAR(255)
+        - column:
+            name: createdAt
+            type: TIMESTAMP
+        - column:
+            name: updatedAt
+            type: TIMESTAMP
+    - createTable:
+        tableName: answer
+        columns:
+        - column:
+            name: id
+            type: INT
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: question_id
+            type: INT
+            constraints:
+              nullable: false
+        - column:
+            name: text
+            type: VARCHAR(255)
+        - column:
+            name: createdAt
+            type: TIMESTAMP
+        - column:
+            name: updatedAt
+            type: TIMESTAMP
+    - addForeignKeyConstraint:
+        baseColumnNames: question_id
+        baseTableName: answer
+        constraintName: fk_answer_question_id
+        referencedColumnNames: id
+        referencedTableName: question
+    - rollback:
+        dropTable:
+          tableName: question
+    - rollback:
+        dropTable:
+          tableName: answer

@@ -1,0 +1,15 @@
+databaseChangeLog:
+- preConditions:
+    dbms:
+      type: postgresql
+- changeSet:
+    id: 2
+    author: oliverhulett
+    changes:
+    - update:
+        tableName: person
+        columns:
+        - column:
+            name: address
+            value: India
+        where: name = 'Tom'

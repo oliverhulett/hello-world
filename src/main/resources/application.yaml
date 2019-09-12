@@ -1,0 +1,16 @@
+spring:
+  liquibase:
+    change-log: classpath:/db/changelog/changelog-master.yaml
+
+logging:
+  level:
+    liquibase: INFO
+
+---
+profile: local
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/liquibase
+    username: postgres
+    password: postgres

@@ -11,6 +11,6 @@ profile: local
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/liquibase
+    url: jdbc:postgresql://localhost:5432/cap
     username: postgres
     password: postgres

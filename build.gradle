@@ -1,14 +1,14 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.7.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.7.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.1.7.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.7.RELEASE'
+    id 'java'
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
- 
+
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
@@ -16,13 +16,82 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	compile "org.springframework.boot:spring-boot-starter-web"
-	compile "org.springframework.boot:spring-boot-starter-jdbc"
-	compile "org.liquibase:liquibase-core"
-	compile "org.postgresql:postgresql"
-	testCompile "org.springframework.boot:spring-boot-starter-test"
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    compile 'org.liquibase:liquibase-core'
+    compile 'org.postgresql:postgresql'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+task startBlankDocker {
+    group 'Build Docker Helpers'
+    description 'Start a blank postgres docker image'
+    doFirst {
+        exec {
+            commandLine './bin/start-blank-docker.sh'
+        }
+    }
+}
+
+task startLatestDocker {
+    group 'Build Docker Helpers'
+    description 'Start the latest cap-datastore docker image'
+    doFirst {
+        exec {
+            commandLine './bin/start-latest-docker.sh'
+        }
+    }
+}
+
+bootRun.shouldRunAfter startBlankDocker
+bootRun.shouldRunAfter startLatestDocker
+
+task tagRunningDocker {
+    group 'Build Docker Helpers'
+    description 'Tag a running docker image'
+    doFirst {
+        exec {
+            commandLine './bin/tag-running-docker.sh'
+        }
+    }
+}
+
+tagRunningDocker.mustRunAfter bootRun
+
+task stopRunningDocker {
+    group 'Build Docker Helpers'
+    description 'Stop a running docker image'
+    doFirst {
+        exec {
+            commandLine './bin/stop-running-docker.sh'
+        }
+    }
+}
+
+stopRunningDocker.shouldRunAfter startBlankDocker
+stopRunningDocker.shouldRunAfter startLatestDocker
+stopRunningDocker.shouldRunAfter tagRunningDocker
+
+task buildImageFromScratch {
+    group 'Build Docker'
+    description 'Build the cap-datastore docker image from scratch from a blank postgres image'
+    dependsOn 'startBlankDocker', 'bootRun', 'tagRunningDocker', 'stopRunningDocker'
+}
+
+task buildImageFromLatest {
+    group 'Build Docker'
+    description 'Build the cap-datastore docker image incrementally from the latest image'
+    dependsOn 'startLatestDocker', 'bootRun', 'tagRunningDocker', 'stopRunningDocker'
+}
+
+task pushDockerImage {
+    group 'Build Docker'
+    description 'Push the latest docker image to the repository'
+    exec {
+        commandLine './bin/push-latest-docker.sh'
+    }
 }

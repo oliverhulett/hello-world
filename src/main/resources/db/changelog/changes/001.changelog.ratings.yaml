@@ -3,27 +3,16 @@ databaseChangeLog:
     id: 1
     author: oliverhulett
     changes:
-    - insert:
-        tableName: person
+    - createTable:
+        tableName: rating
         columns:
         - column:
             name: id
-            valueNumeric: 1
-        - column:
-            name: name
-            value: Tom
-        - column:
-            name: address
-            value: USA
-    - insert:
-        tableName: person
-        columns:
-        - column:
-            name: id
-            valueNumeric: 2
-        - column:
-            name: name
-            value: Shane
-        - column:
-            name: address
-            value: Australia
+            type: INT
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+    - rollback:
+        dropTable:
+          tableName: rating

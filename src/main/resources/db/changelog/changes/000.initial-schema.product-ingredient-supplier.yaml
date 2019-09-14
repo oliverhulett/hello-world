@@ -4,7 +4,7 @@ databaseChangeLog:
     author: oliverhulett
     changes:
     - createTable:
-        tableName: person
+        tableName: product
         columns:
         - column:
             name: id
@@ -15,12 +15,78 @@ databaseChangeLog:
               nullable: false
         - column:
             name: name
-            type: VARCHAR(255)
+            type: VARCHAR
             constraints:
               nullable: false
         - column:
-            name: address
-            type: VARCHAR(255)
+            name: description
+            type: VARCHAR
+            constraints:
+              nullable: false
+        - column:
+            name: image
+            type: BLOB
+        - column:
+            name: description
+            type: BLOB
     - rollback:
         dropTable:
-          tableName: person
+          tableName: product
+    - createTable:
+        tableName: ingredient
+        columns:
+        - column:
+            name: id
+            type: INT
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: name
+            type: VARCHAR
+            constraints:
+              nullable: false
+        - column:
+            name: description
+            type: VARCHAR
+            constraints:
+              nullable: false
+        - column:
+            name: image
+            type: BLOB
+        - column:
+            name: description
+            type: BLOB
+    - rollback:
+        dropTable:
+          tableName: ingredient
+    - createTable:
+        tableName: supplier
+        columns:
+        - column:
+            name: id
+            type: INT
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: name
+            type: VARCHAR
+            constraints:
+              nullable: false
+        - column:
+            name: description
+            type: VARCHAR
+            constraints:
+              nullable: false
+        - column:
+            name: image
+            type: BLOB
+        - column:
+            name: description
+            type: BLOB
+    - rollback:
+        dropTable:
+          tableName: supplier

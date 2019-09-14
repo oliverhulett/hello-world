@@ -21,4 +21,4 @@ if [ $# -ge 1 ]; then
 	DOCKER_IMAGE_VERSION="$1"
 fi
 
-docker commit "${DOCKER_NAME}" "${DOCKER_IMAGE}:${DOCKER_IMAGE_VERSION}"
+report_cmd docker commit "${DOCKER_NAME}" "${DOCKER_IMAGE}:${DOCKER_IMAGE_VERSION}"

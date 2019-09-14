@@ -16,4 +16,4 @@ if [ "$1" == "--help" ] || [ "$1" == "-h" ] || [ "$1" == "-?" ]; then
 	exit 0
 fi
 
-docker stop "${DOCKER_NAME}"
+report_cmd docker stop "${DOCKER_NAME}"

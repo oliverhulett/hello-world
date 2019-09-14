@@ -21,4 +21,4 @@ if [ $# -ge 1 ]; then
 	DOCKER_IMAGE_VERSION="$1"
 fi
 
-docker push "${DOCKER_IMAGE}:${DOCKER_IMAGE_VERSION}"
+report_cmd docker push "${DOCKER_IMAGE}:${DOCKER_IMAGE_VERSION}"

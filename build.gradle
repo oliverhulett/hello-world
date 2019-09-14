@@ -91,7 +91,9 @@ task buildImageFromLatest {
 task pushDockerImage {
     group 'Build Docker'
     description 'Push the latest docker image to the repository'
-    exec {
-        commandLine './bin/push-latest-docker.sh'
+    doFirst {
+        exec {
+            commandLine './bin/push-latest-docker.sh'
+        }
     }
 }

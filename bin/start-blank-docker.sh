@@ -24,5 +24,7 @@ if [ $# -ge 2 ]; then
 	DOCKER_POSTGRES_VERSION="$2"
 fi
 
-docker run -d --rm --name="${DOCKER_NAME}" -p "5432:${DOCKER_PORT}" "${DOCKER_POSTGRES}:${DOCKER_POSTGRES_VERSION}"
-docker exec "${DOCKER_NAME}" psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE ${CAP_DATABASE_NAME}"
+report_cmd "${HERE}/stop-running-docker.sh" || true
+report_cmd docker run -d --rm --name="${DOCKER_NAME}" -p "5432:${DOCKER_PORT}" "${DOCKER_POSTGRES}:${DOCKER_POSTGRES_VERSION}"
+sleep 1
+report_cmd docker exec "${DOCKER_NAME}" psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE ${CAP_DATABASE_NAME}"

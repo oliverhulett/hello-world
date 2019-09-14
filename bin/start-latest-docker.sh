@@ -21,4 +21,5 @@ if [ $# -ge 1 ]; then
 	DOCKER_IMAGE_VERSION="$1"
 fi
 
-docker run -d --rm --name="${DOCKER_NAME}" -p "5432:${DOCKER_PORT}" "${DOCKER_IMAGE}:${DOCKER_IMAGE_VERSION}"
+report_cmd "${HERE}/stop-running-docker.sh" || true
+report_cmd docker run -d --rm --name="${DOCKER_NAME}" -p "5432:${DOCKER_PORT}" "${DOCKER_IMAGE}:${DOCKER_IMAGE_VERSION}"

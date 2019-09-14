@@ -27,7 +27,7 @@ databaseChangeLog:
             name: image
             type: BLOB
         - column:
-            name: description
+            name: thumbnail
             type: BLOB
     - rollback:
         dropTable:
@@ -56,7 +56,7 @@ databaseChangeLog:
             name: image
             type: BLOB
         - column:
-            name: description
+            name: thumbnail
             type: BLOB
     - rollback:
         dropTable:
@@ -85,7 +85,7 @@ databaseChangeLog:
             name: image
             type: BLOB
         - column:
-            name: description
+            name: thumbnail
             type: BLOB
     - rollback:
         dropTable:

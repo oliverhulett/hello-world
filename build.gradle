@@ -8,7 +8,6 @@ buildscript {
 }
 
 apply plugin: 'eclipse'
-apply plugin: 'idea'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
@@ -18,7 +17,7 @@ bootJar {
     version =  '0.1.0'
 }
 
-group = 'com.carolsapp.backend'
+group = 'com.cap.backend'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -33,6 +32,10 @@ configurations {
     }
 }
 
+eclipse {
+    classpath { defaultOutputDir = file('build') }
+}
+
 def immutablesVersion = "2.5.6"
 
 dependencies {
@@ -40,6 +43,7 @@ dependencies {
     annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
     compile("org.springframework.boot:spring-boot-starter-web")
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-validation')
     developmentOnly('org.springframework.boot:spring-boot-devtools')
     implementation("org.immutables:value:${immutablesVersion}")
     implementation('org.springframework.boot:spring-boot-starter-web')
@@ -50,6 +54,7 @@ dependencies {
     testCompile("org.junit.jupiter:junit-jupiter-params")
     testCompile("org.mockito:mockito-core")
     testCompile("org.mockito:mockito-junit-jupiter")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
@@ -60,3 +65,31 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+task startRunningDocker {
+    group 'Docker Helpers'
+    description 'Start the cap datastore docker image'
+    doFirst {
+        exec {
+            commandLine './bin/start-latest-docker.sh'
+        }
+    }
+}
+
+task stopRunningDocker {
+    group 'Docker Helpers'
+    description 'Stop a running docker image'
+    doFirst {
+        exec {
+            commandLine './bin/stop-running-docker.sh'
+        }
+    }
+}
+
+bootRun.dependsOn startRunningDocker
+bootRun.mustRunAfter startRunningDocker
+bootRun.finalizedBy stopRunningDocker
+
+test.dependsOn startRunningDocker
+test.mustRunAfter startRunningDocker
+test.finalizedBy stopRunningDocker

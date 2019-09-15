@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: validate
+
+---
+profile: local
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cap
+    username: postgres
+    password: postgres

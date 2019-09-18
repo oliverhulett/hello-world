@@ -46,7 +46,6 @@ dependencies {
     compile('com.fasterxml.jackson.datatype:jackson-datatype-guava')
     compile('com.fasterxml.jackson.datatype:jackson-datatype-jdk8')
     compile('com.fasterxml.jackson.datatype:jackson-datatype-joda')
-    compile('javax.ws.rs:javax.ws.rs-api')
     compile('org.postgresql:postgresql')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-validation')

@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE")
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE')
     }
 }
 
@@ -13,7 +13,7 @@ apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 
 bootJar {
-    baseName = 'sears'
+    baseName = 'application'
     version =  '0.1.0'
 }
 
@@ -36,26 +36,32 @@ eclipse {
     classpath { defaultOutputDir = file('build') }
 }
 
-def immutablesVersion = "2.5.6"
+def immutablesVersion = '2.5.6'
 
 dependencies {
     annotationProcessor("org.immutables:value:${immutablesVersion}")
     annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile('com.fasterxml.jackson.core:jackson-core')
+    compile('com.fasterxml.jackson.core:jackson-databind')
+    compile('com.fasterxml.jackson.datatype:jackson-datatype-guava')
+    compile('com.fasterxml.jackson.datatype:jackson-datatype-jdk8')
+    compile('com.fasterxml.jackson.datatype:jackson-datatype-joda')
+    compile('javax.ws.rs:javax.ws.rs-api')
+    compile('org.postgresql:postgresql')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-validation')
+    compile('org.springframework.boot:spring-boot-starter-web')
     developmentOnly('org.springframework.boot:spring-boot-devtools')
     implementation("org.immutables:value:${immutablesVersion}")
     implementation('org.springframework.boot:spring-boot-starter-web')
-    runtimeOnly('org.postgresql:postgresql')
-    testCompile("io.rest-assured:rest-assured")
-    testCompile("junit:junit")
-    testCompile("org.junit.jupiter:junit-jupiter-api")
-    testCompile("org.junit.jupiter:junit-jupiter-params")
-    testCompile("org.mockito:mockito-core")
-    testCompile("org.mockito:mockito-junit-jupiter")
+    testCompile('io.rest-assured:rest-assured')
+    testCompile('junit:junit')
+    testCompile('org.junit.jupiter:junit-jupiter-api')
+    testCompile('org.junit.jupiter:junit-jupiter-engine')
+    testCompile('org.junit.jupiter:junit-jupiter-params')
+    testCompile('org.mockito:mockito-core')
+    testCompile('org.mockito:mockito-junit-jupiter')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         exclude group: 'junit', module: 'junit'
@@ -66,30 +72,30 @@ test {
     useJUnitPlatform()
 }
 
-task startRunningDocker {
+task startDatastore {
     group 'Docker Helpers'
     description 'Start the cap datastore docker image'
     doFirst {
         exec {
-            commandLine './bin/start-latest-docker.sh'
+            commandLine './bin/start-datastore-docker.sh'
         }
     }
 }
 
-task stopRunningDocker {
+task stopDatastore {
     group 'Docker Helpers'
     description 'Stop a running docker image'
     doFirst {
         exec {
-            commandLine './bin/stop-running-docker.sh'
+            commandLine './bin/stop-datastore-docker.sh'
         }
     }
 }
 
-bootRun.dependsOn startRunningDocker
-bootRun.mustRunAfter startRunningDocker
-bootRun.finalizedBy stopRunningDocker
+bootRun.dependsOn startDatastore
+bootRun.mustRunAfter startDatastore
+bootRun.finalizedBy stopDatastore
 
-test.dependsOn startRunningDocker
-test.mustRunAfter startRunningDocker
-test.finalizedBy stopRunningDocker
+test.dependsOn startDatastore
+test.mustRunAfter startDatastore
+test.finalizedBy stopDatastore

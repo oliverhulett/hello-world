@@ -41,18 +41,28 @@ def immutablesVersion = '2.5.6'
 dependencies {
     annotationProcessor("org.immutables:value:${immutablesVersion}")
     annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
+
+    implementation("org.immutables:value:${immutablesVersion}")
+    implementation('org.springframework.boot:spring-boot-starter-web')
+
+    compile('ch.qos.logback:logback-classic')
+    compile('ch.qos.logback:logback-core')
+    compile('com.fasterxml.jackson.core:jackson-annotations')
     compile('com.fasterxml.jackson.core:jackson-core')
     compile('com.fasterxml.jackson.core:jackson-databind')
     compile('com.fasterxml.jackson.datatype:jackson-datatype-guava')
     compile('com.fasterxml.jackson.datatype:jackson-datatype-jdk8')
     compile('com.fasterxml.jackson.datatype:jackson-datatype-joda')
+    compile('com.google.guava:guava')
+    compile('net.logstash.logback:logstash-logback-encoder:6.2')
     compile('org.postgresql:postgresql')
+    compile('org.slf4j:slf4j-api')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-validation')
     compile('org.springframework.boot:spring-boot-starter-web')
+
     developmentOnly('org.springframework.boot:spring-boot-devtools')
-    implementation("org.immutables:value:${immutablesVersion}")
-    implementation('org.springframework.boot:spring-boot-starter-web')
+
     testCompile('io.rest-assured:rest-assured')
     testCompile('junit:junit')
     testCompile('org.junit.jupiter:junit-jupiter-api')
@@ -61,6 +71,7 @@ dependencies {
     testCompile('org.mockito:mockito-core')
     testCompile('org.mockito:mockito-junit-jupiter')
     testCompile('org.springframework.boot:spring-boot-starter-test')
+
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         exclude group: 'junit', module: 'junit'
@@ -68,6 +79,25 @@ dependencies {
 }
 
 test {
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+        exceptionFormat = "FULL"
+    }
+
+    reports {
+        junitXml.enabled = true
+        html.enabled = true
+    }
+
+    testLogging {
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                if (result.testCount == 0)
+                    throw new GradleException("Tests are not run, check your build configuration")
+            }
+        }
+    }
+
     useJUnitPlatform()
 }
 

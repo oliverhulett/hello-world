@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cap.backend.common.log.ContextLogger;
 import com.cap.backend.common.log.ContextLoggerFactory;
-import com.cap.backend.datastore.entity.Product;
-import com.cap.backend.product.ProductService;
+import com.cap.backend.datastore.entity.Supplier;
+import com.cap.backend.supplier.SupplierService;
 
 @RestController
-@RequestMapping(path = "/product", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-public class ProductResource {
+@RequestMapping(path = "/supplier", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+public class SupplierResource {
 
-	private static ContextLogger log = ContextLoggerFactory.getLogger(ProductResource.class);
+	private static ContextLogger log = ContextLoggerFactory.getLogger(SupplierResource.class);
 
-	private final ProductService productService;
+	private final SupplierService supplierService;
 
 	@Autowired
-	public ProductResource(ProductService productService) {
-		this.productService = productService;
+	public SupplierResource(SupplierService supplierService) {
+		this.supplierService = supplierService;
 	}
 
 	// TODO: Add end-point to get hydrated versions of data classes...
@@ -34,43 +34,43 @@ public class ProductResource {
 	// actually log the line, remove actual log lines here.
 
 	@PostMapping("/create-or-update")
-	public List<Product> createOrUpdateProducts(@RequestParam List<Product> products) {
+	public List<Supplier> createOrUpdateSuppliers(@RequestParam List<Supplier> suppliers) {
 		try {
-			log.withContext("rest.product.create-or-update.request", products);
-			List<Product> resp = productService.createOrUpdate(products);
-			log.withContext("rest.product.create-or-update.response", resp);
+			log.withContext("rest.supplier.create-or-update.request", suppliers);
+			List<Supplier> resp = supplierService.createOrUpdate(suppliers);
+			log.withContext("rest.supplier.create-or-update.response", resp);
 			log.info("Handled REST request");
 			return resp;
 		} catch (Exception e) {
-			log.withContext("rest.product.create-or-update.exception", e);
+			log.withContext("rest.supplier.create-or-update.exception", e);
 			log.error("Exception while handling REST request");
 			throw e;
 		}
 	}
 
 	@PostMapping("get")
-	public List<Product> getProductsById(@RequestParam List<Long> productIds) {
+	public List<Supplier> getSuppliersById(@RequestParam List<Long> supplierIds) {
 		try {
-			log.withContext("rest.product.get.request", productIds);
-			List<Product> resp = productService.get(productIds);
-			log.withContext("rest.product.get.response", resp);
+			log.withContext("rest.supplier.get.request", supplierIds);
+			List<Supplier> resp = supplierService.get(supplierIds);
+			log.withContext("rest.supplier.get.response", resp);
 			log.info("Handled REST request");
 			return resp;
 		} catch (Exception e) {
-			log.withContext("rest.product.get.exception", e);
+			log.withContext("rest.supplier.get.exception", e);
 			log.error("Exception while handling REST request");
 			throw e;
 		}
 	}
 
 	@PostMapping("delete")
-	public void deleteProductsById(@RequestParam List<Long> productIds) {
+	public void deleteSuppliersById(@RequestParam List<Long> supplierIds) {
 		try {
-			log.withContext("rest.product.delete.request", productIds);
-			productService.delete(productIds);
+			log.withContext("rest.supplier.delete.request", supplierIds);
+			supplierService.delete(supplierIds);
 			log.info("Handled REST request");
 		} catch (Exception e) {
-			log.withContext("rest.product.delete.exception", e);
+			log.withContext("rest.supplier.delete.exception", e);
 			log.error("Exception while handling REST request");
 			throw e;
 		}

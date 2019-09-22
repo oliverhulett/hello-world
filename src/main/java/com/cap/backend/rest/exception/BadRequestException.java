@@ -5,16 +5,16 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 // TODO: Make immutable w/ custom builder settings...
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException {
+@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class BadRequestException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public ResourceNotFoundException(String message) {
+	public BadRequestException(String message) {
 		super(message);
 	}
 
-	public ResourceNotFoundException(String message, Throwable cause) {
+	public BadRequestException(String message, Throwable cause) {
 		super(message, cause);
 	}
 }

@@ -1,5 +1,7 @@
 package com.cap.backend.product;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +18,17 @@ public class ProductManager {
 		this.productRepository = productRepository;
 	}
 
-	public Product getById(long id) {
-		return productRepository.getOne(id);
+	public List<Product> createOrUpdate(List<Product> products) {
+		return productRepository.saveAll(products);
+	}
+
+	public List<Product> get(List<Long> productIds) {
+		return productRepository.findAllById(productIds);
+	}
+
+	public void delete(List<Long> productIds) {
+		for (Long id : productIds) {
+			productRepository.deleteById(id);
+		}
 	}
 }

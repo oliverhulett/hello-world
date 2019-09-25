@@ -25,6 +25,7 @@ if [ $# -ge 2 ]; then
 fi
 
 report_cmd "${HERE}/stop-running-docker.sh" || true
-report_cmd docker run -d --rm --name="${DOCKER_NAME}" -p "5432:${DOCKER_PORT}" "${DOCKER_POSTGRES}:${DOCKER_POSTGRES_VERSION}"
-sleep 1
+( report_cmd cd "${PROJECT_DIR}/image" && report_cmd docker build --tag "${DOCKER_IMAGE}:0" --build-arg DOCKER_POSTGRES="${DOCKER_POSTGRES}" --build-arg DOCKER_POSTGRES_VERSION="${DOCKER_POSTGRES_VERSION}" . )
+report_cmd docker run -d --rm --name="${DOCKER_NAME}" -p "5432:${DOCKER_PORT}" "${DOCKER_IMAGE}:0"
+sleep 2
 report_cmd docker exec "${DOCKER_NAME}" psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE ${CAP_DATABASE_NAME}"

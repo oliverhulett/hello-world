@@ -36,14 +36,30 @@ eclipse {
     classpath { defaultOutputDir = file('build') }
 }
 
-def immutablesVersion = '2.5.6'
+ext {
+    set('immutablesVersion', '2.5.6')
+    set('snippetsDir', file("build/generated-snippets"))
+    set('springCloudVersion', "Greenwich.SR3")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
 
 dependencies {
     annotationProcessor("org.immutables:value:${immutablesVersion}")
     annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
 
     implementation("org.immutables:value:${immutablesVersion}")
+    implementation('org.springframework.boot:spring-boot-starter-actuator')
+    implementation('org.springframework.boot:spring-boot-starter-cloud-connectors')
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('org.springframework.boot:spring-boot-starter-data-rest')
+    implementation('org.springframework.boot:spring-boot-starter-jersey')
     implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.cloud:spring-cloud-starter-sleuth')
 
     compile('ch.qos.logback:logback-classic')
     compile('ch.qos.logback:logback-core')
@@ -72,6 +88,7 @@ dependencies {
     testCompile('org.mockito:mockito-junit-jupiter')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
+//    testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         exclude group: 'junit', module: 'junit'
@@ -121,10 +138,11 @@ task stopDatastore {
     }
 }
 
+test.dependsOn startDatastore
+test.mustRunAfter startDatastore
+test.finalizedBy stopDatastore
+
 bootRun.dependsOn startDatastore
 bootRun.mustRunAfter startDatastore
 bootRun.finalizedBy stopDatastore
 
-test.dependsOn startDatastore
-test.mustRunAfter startDatastore
-test.finalizedBy stopDatastore

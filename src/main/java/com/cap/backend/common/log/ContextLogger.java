@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -22,7 +21,6 @@ public class ContextLogger extends DelegatingLogger {
 	private static String DEFAULT_LOGGER_CONTEXT_KEY = "ctx";
 	private static ThreadLocal<LoggableContext> ctx = new ThreadLocal<>();
 
-	@Value("${retry.context.timeout.in.mills}")
 	private String loggerContextKey = ContextLogger.DEFAULT_LOGGER_CONTEXT_KEY;
 
 	public ContextLogger(Logger logger) {

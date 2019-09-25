@@ -4,6 +4,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         ddl-auto: validate
+  datasource:
+    continue-on-error: false
 
 ---
 profile: local

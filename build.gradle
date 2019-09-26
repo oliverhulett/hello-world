@@ -4,11 +4,13 @@ buildscript {
     }
     dependencies {
         classpath('org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE')
+        classpath('io.swagger.core.v3:swagger-gradle-plugin:2.0.9.1')
     }
 }
 
 apply plugin: 'eclipse'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'io.swagger.core.v3.swagger-gradle-plugin'
 apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 
@@ -52,15 +54,7 @@ dependencies {
     annotationProcessor("org.immutables:value:${immutablesVersion}")
     annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
 
-    implementation("org.immutables:value:${immutablesVersion}")
-    implementation('org.springframework.boot:spring-boot-starter-actuator')
-    implementation('org.springframework.boot:spring-boot-starter-cloud-connectors')
-    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-    implementation('org.springframework.boot:spring-boot-starter-data-rest')
-    implementation('org.springframework.boot:spring-boot-starter-jersey')
-    implementation('org.springframework.boot:spring-boot-starter-web')
-    implementation('org.springframework.cloud:spring-cloud-starter-sleuth')
-
+    compile("org.immutables:value:${immutablesVersion}")
     compile('ch.qos.logback:logback-classic')
     compile('ch.qos.logback:logback-core')
     compile('com.fasterxml.jackson.core:jackson-annotations')
@@ -73,9 +67,14 @@ dependencies {
     compile('net.logstash.logback:logstash-logback-encoder:6.2')
     compile('org.postgresql:postgresql')
     compile('org.slf4j:slf4j-api')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-cloud-connectors')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-data-rest')
+    compile('org.springframework.boot:spring-boot-starter-jersey')
     compile('org.springframework.boot:spring-boot-starter-validation')
     compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.cloud:spring-cloud-starter-sleuth')
 
     developmentOnly('org.springframework.boot:spring-boot-devtools')
 
@@ -86,13 +85,11 @@ dependencies {
     testCompile('org.junit.jupiter:junit-jupiter-params')
     testCompile('org.mockito:mockito-core')
     testCompile('org.mockito:mockito-junit-jupiter')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-
-//    testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+    testCompile('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
         exclude group: 'junit', module: 'junit'
     }
+    //testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 }
 
 test {
@@ -117,6 +114,19 @@ test {
 
     useJUnitPlatform()
 }
+
+// Swagger task, stupid name.
+resolve {
+    classpath = sourceSets.main.runtimeClasspath
+    openApiFile = file('src/main/resources/openapi.info.yaml')
+    outputFormat = 'JSONANDYAML'
+    outputPath = 'src/main/resources'
+    outputFileName = 'openapi.spec'
+    prettyPrint = 'TRUE'
+    resourcePackages = ['com.cap.backend']
+}
+
+build.finalizedBy resolve
 
 task startDatastore {
     group 'Docker Helpers'

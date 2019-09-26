@@ -1,0 +1,12 @@
+openapi: 3.0.1
+info:
+  version: '1.0'
+  title: Carol's App Prototype
+  description: 'Prototype of Carols app, to begin to prove some concepts and gather data.
+ React frontend.
+ Java backend.
+ Postgres datastore.
+ Running on Heroku.'
+  termsOfService: None
+  contact:
+    email: oliver.hulett@gmail.com

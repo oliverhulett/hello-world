@@ -2,20 +2,25 @@ package com.cap.backend.rest;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.cap.backend.common.log.ContextLogger;
 import com.cap.backend.common.log.ContextLoggerFactory;
 import com.cap.backend.datastore.entity.Product;
 import com.cap.backend.product.ProductService;
 
-@RestController
-@RequestMapping(path = "/product", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@Path("product")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+@Component
 public class ProductResource {
 
 	private static ContextLogger log = ContextLoggerFactory.getLogger(ProductResource.class);
@@ -33,7 +38,8 @@ public class ProductResource {
 	// TODO: Add access logs to log context via filter, use out-going filter to
 	// actually log the line, remove actual log lines here.
 
-	@PostMapping("/create-or-update")
+	@POST
+	@Path("/create-or-update")
 	public List<Product> createOrUpdateProducts(@RequestParam List<Product> products) {
 		try {
 			log.withContext("rest.product.create-or-update.request", products);
@@ -48,7 +54,8 @@ public class ProductResource {
 		}
 	}
 
-	@PostMapping("get")
+	@POST
+	@Path("get")
 	public List<Product> getProductsById(@RequestParam List<Long> productIds) {
 		try {
 			log.withContext("rest.product.get.request", productIds);
@@ -63,7 +70,8 @@ public class ProductResource {
 		}
 	}
 
-	@PostMapping("delete")
+	@POST
+	@Path("delete")
 	public void deleteProductsById(@RequestParam List<Long> productIds) {
 		try {
 			log.withContext("rest.product.delete.request", productIds);

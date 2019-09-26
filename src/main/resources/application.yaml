@@ -2,8 +2,9 @@ spring:
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         ddl-auto: validate
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp.use_jdbc_metadata_defaults: false
   datasource:
     continue-on-error: false
 
@@ -15,3 +16,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/cap
     username: postgres
     password: postgres
+
+endpoints:
+  shutdown:
+    enabled: true
+    sensitive: false

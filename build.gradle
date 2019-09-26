@@ -92,6 +92,10 @@ dependencies {
     //testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
 }
 
+bootRun.configure {
+    systemProperty 'spring.profiles.active', 'local'
+}
+
 test {
     testLogging {
         events "PASSED", "FAILED", "SKIPPED"

@@ -1,12 +1,12 @@
 # shellcheck shell=bash
 
 export CAP_DATABASE_NAME="cap"
-export DOCKER_IMAGE="cap/datastore"
-export DOCKER_IMAGE_VERSION="latest"
-export DOCKER_NAME="cap_datastore"
-export DOCKER_PORT="5432"
-export DOCKER_POSTGRES="postgres"
-export DOCKER_POSTGRES_VERSION="11"
+export DATASTORE_IMAGE="cap/datastore"
+export DATASTORE_IMAGE_VERSION="latest"
+export DATASTORE_NAME="cap_datastore"
+export DATASTORE_PORT="5432"
+export POSTGRES="postgres"
+export POSTGRES_VERSION="11"
 
 RED="$(tput -T"${TERM:-dumb}" setaf 1 || true)"
 GREEN="$(tput -T"${TERM:-dumb}" setaf 2 || true)"

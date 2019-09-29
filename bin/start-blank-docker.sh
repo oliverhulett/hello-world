@@ -13,19 +13,19 @@ fi
 if [ "$1" == "--help" ] || [ "$1" == "-h" ] || [ "$1" == "-?" ]; then
 	report_good "$(basename -- "$0") [docker-image] [version/tag]"
 	report_good "Start a blank docker container of the given image and version/tag.  Create the 'cap' datastore."
-	report_good "Defaults to ${DOCKER_POSTGRES}:${DOCKER_POSTGRES_VERSION}"
+	report_good "Defaults to ${POSTGRES}:${POSTGRES_VERSION}"
 	exit 0
 fi
 
 if [ $# -ge 1 ]; then
-	DOCKER_POSTGRES="$1"
+	POSTGRES="$1"
 fi
 if [ $# -ge 2 ]; then
-	DOCKER_POSTGRES_VERSION="$2"
+	POSTGRES_VERSION="$2"
 fi
 
 report_cmd "${HERE}/stop-running-docker.sh" || true
-( report_cmd cd "${PROJECT_DIR}/image" && report_cmd docker build --tag "${DOCKER_IMAGE}:0" --build-arg DOCKER_POSTGRES="${DOCKER_POSTGRES}" --build-arg DOCKER_POSTGRES_VERSION="${DOCKER_POSTGRES_VERSION}" . )
-report_cmd docker run -d --rm --name="${DOCKER_NAME}" -p "5432:${DOCKER_PORT}" "${DOCKER_IMAGE}:0"
+( report_cmd cd "${PROJECT_DIR}/image" && report_cmd docker build --tag "${DATASTORE_IMAGE}:0" --build-arg POSTGRES="${POSTGRES}" --build-arg POSTGRES_VERSION="${POSTGRES_VERSION}" . )
+report_cmd docker run -d --rm --name="${DATASTORE_NAME}" -p "5432:${DATASTORE_PORT}" "${DATASTORE_IMAGE}:0"
 sleep 2
-report_cmd docker exec "${DOCKER_NAME}" psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE ${CAP_DATABASE_NAME}"
+report_cmd docker exec "${DATASTORE_NAME}" psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE ${CAP_DATABASE_NAME}"

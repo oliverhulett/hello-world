@@ -1,9 +1,13 @@
 # shellcheck shell=bash
 
-export DOCKER_IMAGE="cap/datastore"
-export DOCKER_IMAGE_VERSION="latest"
-export DOCKER_NAME="cap_datastore"
-export DOCKER_PORT="5432"
+export BACKEND_IMAGE="cap/backend"
+export BACKEND_IMAGE_VERSION="latest"
+export BACKEND_NAME="cap_backend"
+export BACKEND_PORT="8080"
+export DATASTORE_IMAGE="cap/datastore"
+export DATASTORE_IMAGE_VERSION="latest"
+export DATASTORE_NAME="cap_datastore"
+export DATASTORE_PORT="5432"
 
 RED="$(tput -T"${TERM:-dumb}" setaf 1 || true)"
 GREEN="$(tput -T"${TERM:-dumb}" setaf 2 || true)"

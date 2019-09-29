@@ -13,13 +13,13 @@ fi
 if [ "$1" == "--help" ] || [ "$1" == "-h" ] || [ "$1" == "-?" ]; then
 	report_good "$(basename -- "$0") [version/tag]"
 	report_good "Start the latest cap datastore docker container of version/tag.  Create the 'cap' datastore."
-	report_good "Defaults to ${DOCKER_IMAGE_VERSION}"
+	report_good "Defaults to ${DATASTORE_IMAGE_VERSION}"
 	exit 0
 fi
 
 if [ $# -ge 1 ]; then
-	DOCKER_IMAGE_VERSION="$1"
+	DATASTORE_IMAGE_VERSION="$1"
 fi
 
 report_cmd "${HERE}/stop-datastore-docker.sh"
-report_cmd docker run -d --rm --name="${DOCKER_NAME}" -p "5432:${DOCKER_PORT}" "${DOCKER_IMAGE}:${DOCKER_IMAGE_VERSION}"
+report_cmd docker run -d --rm --name="${DATASTORE_NAME}" -p "5432:${DATASTORE_PORT}" "${DATASTORE_IMAGE}:${DATASTORE_IMAGE_VERSION}"

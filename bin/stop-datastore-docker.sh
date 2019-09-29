@@ -12,8 +12,8 @@ fi
 
 if [ "$1" == "--help" ] || [ "$1" == "-h" ] || [ "$1" == "-?" ]; then
 	report_good "$(basename -- "$0")"
-	report_good "Stop a running docker image"
+	report_good "Stop a running datastore image"
 	exit 0
 fi
 
-report_cmd docker stop "${DOCKER_NAME}" || true
+report_cmd docker stop "${DATASTORE_NAME}" || true

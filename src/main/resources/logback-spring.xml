@@ -1,14 +1,12 @@
 <configuration>
-  <springProfile name="default">
-    <appender name="jsonConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
-      <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
-    </appender>
-    <root level="INFO">
-      <appender-ref ref="jsonConsoleAppender"/>
-    </root>
-  </springProfile>
-
-  <springProfile name="local">
-    <include resource="org/springframework/boot/logging/logback/base.xml"/>
-  </springProfile>
+  <appender name="jsonConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+    <layout class="ch.qos.logback.contrib.json.classic.JsonLayout">
+      <jsonFormatter class="ch.qos.logback.contrib.jackson.JacksonJsonFormatter"/>
+      <timestampFormat>yyyy-MM-dd' 'HH:mm:ss.SSS</timestampFormat>
+    </layout>
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+  </appender>
+  <root level="INFO">
+    <appender-ref ref="jsonConsoleAppender"/>
+  </root>
 </configuration>

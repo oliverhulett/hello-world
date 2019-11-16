@@ -1,0 +1,107 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.1.6.RELEASE')
+    }
+}
+
+apply plugin: 'eclipse'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+eclipse {
+    classpath {
+        defaultOutputDir = file('build')
+        file {
+            whenMerged {
+                // use default Output for all source-folders. see also defaultOutputDir per project
+                entries.each { source ->
+                    if (source.kind == 'src' && !source.path.startsWith('/')) { // only Source-folders in the project starting with '/' are project-references
+                        source.output = null
+                    }
+                }
+            }
+        }
+    }
+}
+
+ext {
+    set('immutablesVersion', '2.5.6')
+    set('logbackContribVersion', '0.1.5')
+    set('snippetsDir', file("build/generated-snippets"))
+    set('springCloudVersion', "Greenwich.SR3")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    annotationProcessor("org.immutables:value:${immutablesVersion}")
+    annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-jersey'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compile("org.immutables:value:${immutablesVersion}")
+    
+    testCompile('junit:junit')
+    testCompile('org.junit.jupiter:junit-jupiter-api')
+    testCompile('org.junit.jupiter:junit-jupiter-engine')
+    testCompile('org.junit.jupiter:junit-jupiter-params')
+    testCompile('org.mockito:mockito-core')
+    testCompile('org.mockito:mockito-junit-jupiter')
+    testCompile('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        exclude group: 'junit', module: 'junit'
+    }
+}
+
+bootRun.configure {
+    systemProperty 'spring.profiles.active', 'local'
+}
+
+test {
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+        exceptionFormat = "FULL"
+    }
+
+    reports {
+        junitXml.enabled = true
+        html.enabled = true
+    }
+
+    testLogging {
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                if (result.testCount == 0) {
+                    throw new GradleException("Tests are not run, check your build configuration")
+                }
+            }
+        }
+    }
+
+    useJUnitPlatform()
+}

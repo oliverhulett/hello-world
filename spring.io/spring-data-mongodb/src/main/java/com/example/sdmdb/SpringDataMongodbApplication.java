@@ -1,15 +1,19 @@
-package com.example.springdatamongodb;
+package com.example.sdmdb;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
-import com.example.springdatamongodb.model.Customer;
-import com.example.springdatamongodb.repository.CustomerRepository;
+import com.example.sdmdb.model.Customer;
+import com.example.sdmdb.repository.CustomerRepository;
 
 @SpringBootApplication
 public class SpringDataMongodbApplication implements CommandLineRunner {
+
+	@Autowired
+	ConfigurableApplicationContext cac;
 
 	@Autowired
 	private CustomerRepository repository;
@@ -45,5 +49,7 @@ public class SpringDataMongodbApplication implements CommandLineRunner {
 		for (Customer customer : repository.findByLastName("Smith")) {
 			System.out.println(customer);
 		}
+
+		cac.close();
 	}
 }

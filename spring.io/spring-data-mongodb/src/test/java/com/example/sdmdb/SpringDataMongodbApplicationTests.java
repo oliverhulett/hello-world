@@ -1,4 +1,4 @@
-package com.example.springdatamongodb;
+package com.example.sdmdb;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

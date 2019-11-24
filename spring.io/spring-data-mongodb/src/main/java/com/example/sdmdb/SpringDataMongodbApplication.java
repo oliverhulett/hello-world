@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.example.sdmdb.model.Customer;
+import com.example.sdmdb.model.ImmutableCustomer;
 import com.example.sdmdb.repository.CustomerRepository;
 
 @SpringBootApplication
@@ -28,8 +29,8 @@ public class SpringDataMongodbApplication implements CommandLineRunner {
 		repository.deleteAll();
 
 		// save a couple of customers
-		repository.save(new Customer("Alice", "Smith"));
-		repository.save(new Customer("Bob", "Smith"));
+		repository.save(ImmutableCustomer.builder().firstName("Alice").lastName("Smith").build());
+		repository.save(ImmutableCustomer.builder().firstName("Bob").lastName("Smith").build());
 
 		// fetch all customers
 		System.out.println("Customers found with findAll():");

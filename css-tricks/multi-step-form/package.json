@@ -1,0 +1,31 @@
+{
+  "name": "multi-stage-form",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1"
+  },
+  "scripts": {
+    "eject": "react-scripts eject",
+    "start": "react-scripts start",
+    "test:unit": "CI=true react-scripts test --verbose",
+    "test:coverage": "CI=true react-scripts test --verbose --coverage",
+    "test:debug": "react-scripts --inspect-brk test --verbose --runInBand --no-cache",
+    "test:watch": "react-scripts test --verbose"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

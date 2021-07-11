@@ -1,0 +1,7 @@
+apiPackage: api
+emitModelMethods: true
+hideGenerationTimestamp: true
+modelPackage: entity
+supportsES6: true
+typescriptThreePlus: true
+usePromises: true

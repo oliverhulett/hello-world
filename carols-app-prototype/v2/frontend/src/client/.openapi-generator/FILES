@@ -1,0 +1,12 @@
+apis/ProductResourceApi.ts
+apis/SupplierResourceApi.ts
+apis/index.ts
+index.ts
+models/Ingredient.ts
+models/IngredientEntity.ts
+models/Product.ts
+models/ProductEntity.ts
+models/Supplier.ts
+models/SupplierEntity.ts
+models/index.ts
+runtime.ts

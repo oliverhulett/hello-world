@@ -1,0 +1,72 @@
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
+apply from: '../docker-scripts.gradle'
+apply from: '../test-setup.gradle'
+
+test.dependsOn = [dockerStart]
+test.finalizedBy = [dockerStop]
+
+bootJar.enabled = false
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compile {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    // Generated files dependencies...
+    compile 'io.swagger:swagger-annotations:1.5.24'
+    compile "com.google.code.findbugs:jsr305:3.0.2"
+    compile 'com.squareup.okhttp3:okhttp:3.14.7'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.14.7'
+    compile 'com.google.code.gson:gson:2.8.6'
+    compile 'io.gsonfire:gson-fire:1.8.4'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.10'
+    compile 'org.threeten:threetenbp:1.4.3'
+
+    testCompile platform(project(':dependencies'))
+    testCompile project(':main')
+
+    testCompile("com.google.guava:guava")
+    testCompile("io.rest-assured:json-path")
+    testCompile("io.rest-assured:rest-assured")
+    testCompile("junit:junit")
+    testCompile("org.hamcrest:hamcrest-all")
+    testCompile("org.junit.jupiter:junit-jupiter-api")
+    testCompile("org.junit.jupiter:junit-jupiter-engine")
+    testCompile("org.junit.jupiter:junit-jupiter-params")
+    testCompile("org.springframework.boot:spring-boot-starter-web")
+}
+
+task('generateTestClient') {
+    doLast {
+        exec {
+            workingDir project.rootDir.getAbsolutePath()
+            commandLine "bash", "-xc", "docker run --rm" +
+                    " --network cap-backend_application_net" +
+                    " -v '${project.rootDir.getAbsolutePath()}/:/local/'" +
+                    " openapitools/openapi-generator-cli generate" +
+                    " -i http://cap-backend:8080/v2/api-docs.yaml" +
+                    " -g java -o /local/" +
+                    " -c /local/integration-tests/src/main/resources/openapi-generator-config.yaml" +
+                    " --global-property=modelTests=false --global-property=apiTests=false"
+        }
+    }
+}
+
+generateTestClient.dependsOn = [dockerStart]
+generateTestClient.finalizedBy = [dockerStop]
+build.dependsOn = [generateTestClient]
+
+bootRun.enabled = false
+generateTestClient.enabled = false

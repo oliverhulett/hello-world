@@ -1,0 +1,9 @@
+application.name: cap-backend
+
+mongo:
+  database: cap-datastore
+  connection: mongodb://mongodb:27017
+
+endpoints:
+  shutdown:
+    enabled: false

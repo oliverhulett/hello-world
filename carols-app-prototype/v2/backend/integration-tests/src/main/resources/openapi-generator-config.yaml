@@ -1,0 +1,5 @@
+apiPackage: com.cap.backend.api
+emitModelMethods: true
+hideGenerationTimestamp: true
+modelPackage: com.cap.backend.entity
+sourceFolder: integration-tests/src/main/java

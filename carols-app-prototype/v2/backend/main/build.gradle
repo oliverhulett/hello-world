@@ -1,0 +1,80 @@
+apply plugin: 'application'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
+apply from: '../test-setup.gradle'
+
+mainClassName = 'com.cap.backend.Application'
+
+bootJar {
+    baseName = 'application'
+    version = '0.1.0'
+    enabled = true
+}
+jar {
+    enabled = true
+}
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compile {
+        extendsFrom annotationProcessor
+    }
+}
+
+sourceSets {
+    main {
+        java.srcDirs += 'build/generated/sources/annotationProcessor/java/main'
+    }
+}
+
+dependencies {
+    compile platform(project(':dependencies'))
+
+    annotationProcessor("org.immutables:value:2.5.6")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+    compile("ch.qos.logback.contrib:logback-jackson")
+    compile("ch.qos.logback.contrib:logback-json-classic")
+    compile("ch.qos.logback:logback-classic")
+    compile("ch.qos.logback:logback-core")
+    compile("com.fasterxml.jackson.core:jackson-annotations")
+    compile("com.fasterxml.jackson.core:jackson-core")
+    compile("com.fasterxml.jackson.core:jackson-databind")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-guava")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jdk8")
+    compile("com.google.guava:guava")
+    compile("net.logstash.logback:logstash-logback-encoder")
+    compile("org.immutables:value")
+    compile("org.slf4j:slf4j-api")
+    compile("io.springfox:springfox-swagger2")
+    compile("io.springfox:springfox-swagger-ui")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-cloud-connectors")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile("org.springframework.boot:spring-boot-starter-validation")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.cloud:spring-cloud-starter-sleuth")
+
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
+    testCompile("junit:junit")
+    testCompile("org.junit.jupiter:junit-jupiter-api")
+    testCompile("org.junit.jupiter:junit-jupiter-engine")
+    testCompile("org.junit.jupiter:junit-jupiter-params")
+    testCompile("org.mockito:mockito-core")
+    testCompile("org.mockito:mockito-junit-jupiter")
+    testCompile("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        exclude group: 'junit', module: 'junit'
+    }
+}
+
+bootRun.enabled = false

@@ -1,0 +1,45 @@
+def Boolean startedExternally
+task dockerBuild(type:Exec) {
+    workingDir project.rootDir.getAbsolutePath()
+    setExecutable './bin/status-application-docker.sh'
+    ignoreExitValue true
+    doLast {
+        if (startedExternally == null) {
+            startedExternally = execResult.exitValue == 0
+        }
+        if (!startedExternally) {
+            exec {
+                workingDir project.rootDir.getAbsolutePath()
+                setExecutable './bin/build-application-docker.sh'
+            }
+        }
+    }
+}
+dockerBuild.dependsOn = [':main:bootJar']
+task dockerStart(type:Exec) {
+    workingDir project.rootDir.getAbsolutePath()
+    setExecutable './bin/status-application-docker.sh'
+    ignoreExitValue true
+    doLast {
+        if (startedExternally == null) {
+            startedExternally = execResult.exitValue == 0
+        }
+        if (!startedExternally) {
+            exec {
+                workingDir project.rootDir.getAbsolutePath()
+                setExecutable './bin/run-application-docker.sh'
+            }
+        }
+    }
+}
+dockerStart.dependsOn = ['dockerBuild']
+task('dockerStop') {
+    doLast {
+        if (!startedExternally) {
+            exec {
+                workingDir project.rootDir.getAbsolutePath()
+                setExecutable './bin/stop-application-docker.sh'
+            }
+        }
+    }
+}

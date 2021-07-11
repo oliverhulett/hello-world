@@ -1,0 +1,24 @@
+test {
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+        exceptionFormat = "FULL"
+    }
+
+    reports {
+        junitXml.enabled = true
+        html.enabled = true
+    }
+
+    testLogging {
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                if (result.testCount == 0) {
+                    throw new GradleException("Tests are not run, check your build configuration")
+                }
+            }
+        }
+    }
+
+    useJUnitPlatform()
+    outputs.upToDateWhen { false }
+}

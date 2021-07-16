@@ -20,13 +20,24 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
-    "storybook": "start-storybook -p 4000 -c .storybook",
-    "test": "react-scripts test"
+    "storybook": "start-storybook -p 6006 -s public",
+    "test": "react-scripts test",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
     ]
   },
   "browserslist": {
@@ -43,6 +54,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.6",
+    "@storybook/addon-actions": "^6.3.4",
+    "@storybook/addon-essentials": "^6.3.4",
+    "@storybook/addon-links": "^6.3.4",
+    "@storybook/node-logger": "^6.3.4",
+    "@storybook/preset-create-react-app": "^3.2.0",
     "@storybook/react": "^6.3.4",
     "@types/storybook__react": "^5.2.1",
     "awesome-typescript-loader": "^5.2.1",
